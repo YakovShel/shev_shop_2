@@ -1,0 +1,16 @@
+[
+  {
+    "model": "goods.products",
+    "pk": 1,
+    "fields": {
+      "name": "Adidas Forum",
+      "slug": "adidas-forum",
+      "description": "",
+      "image": "",
+      "price": "10000.00",
+      "discount": "0.00",
+      "quantity": 3,
+      "category": 6
+    }
+  }
+]
