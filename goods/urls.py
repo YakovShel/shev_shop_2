@@ -14,6 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import heapq
+
 from django.urls import path
 
 from goods import views
@@ -21,7 +23,8 @@ from goods import views
 app_name = 'goods'
 
 urlpatterns = [
-    path('<slug:category_slug>', views.catalog, name='index'),
-    path('product/<int:product_id>', views.product, name='product'),
-    path('product/<slug:product_slug>', views.product, name='product'),
+    path('<slug:category_slug>/', views.catalog, name='index'),
+    path('<slug:category_slug>/<int:page>/', views.catalog, name='index'),
+    path('product/<int:product_id>/', views.product, name='product'),
+    path('product/<slug:product_slug>/', views.product, name='product'),
 ]
