@@ -2,10 +2,14 @@
 {% load static %}
 {% load goods_tags %}
 
+{% block modal_cart %}
+{% include "includes/cart_button.html" %}
+{% endblock %}
+
 {% block footer %}
 <footer class="py-4 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Home Python Hub Studio 2023</p>
+            <p class="m-0 text-center text-white">Copyright &copy; ShEv Course Project 2024</p>
         </div>
     </footer>
 {% endblock %}
@@ -102,7 +106,7 @@
                                                 <p><strong>{{ product.price }} $</strong></p>
                                             {% endif %}
 
-                                            <a href="#" class="btn add-to-cart">
+                                            <a href="{% url 'cart:cart_add' product.slug %}" class="btn add-to-cart">
                                                 <img class="mx-1" src="{% static 'deps/icons/cart-plus.svg' %}" alt="Catalog Icon"
                                                     width="32" height="32">
                                             </a>
