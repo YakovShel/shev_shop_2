@@ -64,7 +64,7 @@ def cart_change(request):
     response_data = {
         "message": "Количество изменено",
         "cart_items_html": cart_items_html,
-        "quaantity": updated_quantity,
+        "quantity": updated_quantity,
     }
 
     return JsonResponse(response_data)
