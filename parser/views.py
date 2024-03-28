@@ -31,8 +31,8 @@ def parse(request):
     load_products(json_file_path_disney, "Lego Disney")
 
     context = {
-        'title': "Home - Главная",
-        'content': 'Магазин мебели Home',
+        'title': "ShEv - Главная",
+        'content': 'Магазин ShEV',
     }
 
     return render(request, 'main/index.html', context)
