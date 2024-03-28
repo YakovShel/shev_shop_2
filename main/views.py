@@ -6,8 +6,8 @@ from goods.models import Categories
 def index(request):
 
     context = {
-        'title': "Home - Главная",
-        'content': 'Магазин мебели Home',
+        'title': "ShEv - Главная",
+        'content': 'Магазин ShEv',
     }
 
     return render(request, 'main/index.html', context)
@@ -15,7 +15,7 @@ def index(request):
 
 def about(request):
     context = {
-        'title': "Home - О нас",
+        'title': "ShEv - О нас",
         'content': 'О нас',
         'text_on_page': 'Текст о том, почему наш магазин лучше всех!'
     }

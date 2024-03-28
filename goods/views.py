@@ -16,6 +16,8 @@ def catalog(request, category_slug=None):
         goods = Products.objects.all()
     elif query:
         goods = q_search(query)
+    elif category_slug != 'all':
+        goods = Products.objects.filter(category__slug=category_slug)
     else:
         goods = get_list_or_404(Products.objects.filter(category__slug=category_slug))
         #goods = Products.objects.filter(category__slug=category_slug)
@@ -26,11 +28,11 @@ def catalog(request, category_slug=None):
     if order_by and order_by != "default":
         goods = goods.order_by(order_by)
 
-    paginator = Paginator(goods, 2)
+    paginator = Paginator(goods, 9)
     current_page = paginator.page(int(page))
 
     context = {
-        'title': 'Home catalog',
+        'title': 'ShEv catalog',
         'goods': current_page,
         'slug_url': category_slug
     }

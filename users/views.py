@@ -37,7 +37,7 @@ def login(request):
         form = UserLoginForm()
 
     context = {
-        'title': 'Home - Авторизация',
+        'title': 'ShEv - Авторизация',
         'form': form
     }
     return render(request, 'users/login.html', context)
@@ -63,7 +63,7 @@ def registration(request):
         form = UserRegistrationForm()
 
     context = {
-        'title': 'Home - Регистрация',
+        'title': 'ShEv - Регистрация',
         'form': form
     }
     return render(request, 'users/registration.html', context)
@@ -87,7 +87,7 @@ def profile(request):
     ).order_by("-id")
 
     context = {
-        'title': 'Home - Кабинет',
+        'title': 'ShEv - Кабинет',
         'form': form,
         'orders': orders,
     }
