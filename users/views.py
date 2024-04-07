@@ -18,36 +18,22 @@ from users.serializers import UserLoginSerializer, UserRegistrationSerializer
 
 
 class UserLoginAPIView(APIView):
-    renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
-    template_name = 'users/login.html'
-
-    def get(self, request, *args, **kwargs):
-        form = UserLoginSerializer()
-        if request.accepted_renderer.format == 'html':
-            # Возвращаем HTML-форму, если клиент ожидает HTML
-            return Response({'form': form})
-        else:
-            # Возвращаем JSON-сообщение, если клиент ожидает JSON
-            return Response({'message': 'Форма успешно загружена!'}, status=200)
-
-
     def post(self, request, *args, **kwargs):
-        serializer = UserLoginSerializer(data=request.data)
-        if serializer.is_valid():
-            username = serializer.validated_data['username']
-            password = serializer.validated_data['password']
-            user = authenticate(request, username=username, password=password)
-            session_key = request.session.session_key
-
-            if user:
-                if session_key:
-                    Cart.objects.filter(session_key=session_key).update(user=user)
-                login(request, user)
-                return Response({"message": f"Добро пожаловать, {username}!"}, status=status.HTTP_200_OK)
-            else:
-                return Response({"error": "Недопустимые учётные данные!"}, status=status.HTTP_401_UNAUTHORIZED)
+        username = request.data.get('username')
+        password = request.data.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            return Response({
+                'id': user.id,
+                'is_staff': user.is_staff,
+                'status': 'success',
+                'message': f'Добро пожаловать, {user.username}!'
+            })
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                'status': 'error',
+                'message': 'Недопустимые учетные данные!'
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
 class UserRegisterAPIView(APIView):
     def post(self, request, *args, **kwargs):
@@ -119,4 +105,4 @@ class LogoutAPIView(APIView):
 
     def post(self, request):
         auth.logout(request)
-        return Response({"message": "Вы успешно вышли из аккаунта!"}, status=status.HTTP_200_OK)
+        return Response({'status': 'success', "message": "Вы успешно вышли из аккаунта!"}, status=status.HTTP_200_OK)

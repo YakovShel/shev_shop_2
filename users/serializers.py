@@ -10,7 +10,6 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
 
-
 UserModel = get_user_model()
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
