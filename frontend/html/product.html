@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block modal_cart %}
-{% include "includes/cart_button.html" %}
+{% include "frontend/html/cart_button.html" %}
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
                                         <img src="{{ product.image.url }}"
                                             class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
                                     {% else %}
-                                        <img src="{% static 'deps/images/Not found image.png' %}"
+                                        <img src="{% static 'frontend/images/Not found image.png' %}"
                                              class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
                                     {% endif %}
 

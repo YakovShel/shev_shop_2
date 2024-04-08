@@ -1,28 +1,30 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block css %}
-     <!-- Стиль footer-a для главной страницы -->
-    <link rel="stylesheet" href="{% static 'deps/css/my_footer_css.css' %}">
-{% endblock %}
-
-{% block modal_cart %}
-{% include "includes/cart_button.html" %}
-{% endblock %}
-
-{% block content %}
-    <div class="mt-5 pt-5 bg-white custom-shadow rounded">
-        <!-- Контент на странице -->
-        <h2 class="m-2"><strong>{{ content }}</strong></h2>
-        <p class="m-2">{{ text_on_page }}</p>
-    </div>
-{% endblock %}
-
-{% block footer %}
-<footer class="py-4 bg-dark">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <!-- Стиль footer-a для главной страницы -->
+    <link rel="stylesheet" href="frontend/css/my_footer_css.css">
+</head>
+<body>
+    <header>
+        <!-- Подключение кнопки корзины -->
+        <div id="modal_cart">
+            <a class="nav-link text-white" href="users_cart.html">Корзина</a>
+        </div>
+    </header>
+    <main>
+        <div class="mt-5 pt-5 bg-white custom-shadow rounded">
+            <!-- Контент на странице -->
+            <h2 class="m-2"><strong>{{ content }}</strong></h2>
+            <p class="m-2">{{ text_on_page }}</p>
+        </div>
+    </main>
+    <footer class="py-4 bg-dark">
         <div class="container">
             <p class="m-0 text-center text-white">Copyright &copy; ShEv Course Project 2024</p>
         </div>
     </footer>
-{% endblock %}
-
+</body>
+</html>
