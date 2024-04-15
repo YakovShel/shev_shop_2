@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
 
     'rest_framework',
-    "debug_toolbar",
+    'debug_toolbar',
+    'corsheaders',
 
     'main',
     'goods',
@@ -60,9 +61,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware'
 ]
 
 ROOT_URLCONF = 'shev.urls'
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
