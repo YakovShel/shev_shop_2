@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
-    <link rel="stylesheet" href="path/to/your/css/bootstrap.min.css">
-    <link rel="stylesheet" href="path/to/your/css/custom.css">
+    <title>Регистрация | ShEv</title>
+    <link rel="stylesheet" href="frontend/css/bootstrap.min.css">
+    <script src="frontend/js/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-9 bg-white p-4 mb-5 mx-2 rounded custom-shadow">
             <h2 class="text-center mb-4">Регистрация</h2>
-            <form id="registrationForm">
+            <form id="registration-form">
                 <div class="row">
-                    <!-- Поля формы регистрации -->
+                    <!-- Форма регистрации с динамической валидацией и AJAX-отправкой -->
                     <div class="col-md-6 mb-3">
                         <label for="id_first_name" class="form-label">Имя*</label>
                         <input type="text" class="form-control" id="id_first_name" name="first_name" placeholder="Введите ваше имя" required>
@@ -40,13 +38,14 @@
                         <label for="id_password2" class="form-label">Подтверждение пароля*</label>
                         <input type="password" class="form-control" id="id_password2" name="password2" placeholder="Подтвердите пароль" required>
                     </div>
-                    <button type="submit" class="btn btn-dark btn-block">Зарегистрироваться</button>
                 </div>
+                <button type="submit" class="btn btn-dark btn-block">Зарегистрироваться</button>
             </form>
         </div>
     </div>
 </div>
 
-<script src="path/to/your/js/registration.js"></script>
+<script src="frontend/js/bootstrap.bundle.min.js"></script>
+<script src="frontend/js/registration.js"></script>
 </body>
 </html>

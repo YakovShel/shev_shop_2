@@ -1,107 +1,74 @@
-{% load static %}
-{% load carts_tags %}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
-    <!-- Стиль footer-a для главной страницы -->
-    <link rel="stylesheet" href="frontend/css/my_footer_css.css">
+    <title>Корзина | Интернет-Магазин</title>
+    <link rel="stylesheet" href="frontend/css/bootstrap.min.css">
+    <link rel="stylesheet" href="frontend/css/my_css.css">
+    <script src="frontend/js/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-    <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
-        <div class="container">
-            <h3 class="text-center mb-4">Выбранные товары</h3>
-            <div class="container" id="cart-items-container">
-                <!-- Разметка корзины -->
-                {% user_carts request as carts %}
-                {% include "frontend/html/included_cart.html" %}
-                <!-- Закончилась разметка корзины -->
-            </div>
+<div class="bg-white p-4 mb-4 mx-2 rounded custom-shadow">
+    <div class="container">
+        <h3 class="text-center mb-4">Выбранные товары</h3>
+        <div id="cart-items-container">
+            <!-- Товары в корзине будут загружены сюда динамически -->
         </div>
-        <!-- Детали заказа -->
-        <div class="container">
-            <h3 class="text-center">Детали заказа</h3>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <form action="{% url 'orders:create_order' %}" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="id_first_name" class="form-label">Имя*:</label>
-                                <input type="text" class="form-control" id="id_first_name"
-                                    value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}"
-                                    name="first_name" required>
-                                {% if form.first_name.errors %}
-                                    <div class="alert alert-danger alert-dismissible fade show">{{form.first_name.errors}}</div>
-                                {% endif %}
+    </div>
+    <div class="container">
+        <h3 class="text-center">Детали заказа</h3>
+        <div class="card mb-3">
+            <div class="card-body">
+                <form id="order-form">
+                    <div class="row">
+                        <!-- Форма с деталями заказа -->
+                        <div class="col-md-6 mb-3">
+                            <label for="first_name">Имя*:</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="last_name">Фамилия*:</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="phone_number">Номер телефона*:</label>
+                            <input type="text" class="form-control" id="phone_number" name="phone_number" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label>Способ доставки:</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="delivery" id="delivery_yes" value="1" checked>
+                                <label class="form-check-label" for="delivery_yes">Нужна доставка</label>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="id_last_name" class="form-label">Фамилия*:</label>
-                                <input type="text" class="form-control" id="id_last_name" name="last_name"
-                                value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}"
-                                required>
-                                {% if form.last_name.errors %}
-                                    <div class="alert alert-danger alert-dismissible fade show">{{form.last_name.errors}}</div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="id_phone_number" class="form-label">Номер телефона*:</label>
-                                <input type="text" class="form-control" id="id_phone_number" name="phone_number"
-                                    value="{% if form.phone_number.value %}{{ form.phone_number.value }}{% endif %}"
-                                    placeholder="В формате: 999-999-99-99 БЕЗ символов -"
-                                    required>
-                                {% if form.phone_number.errors %}
-                                    <div class="alert alert-danger alert-dismissible fade show">{{form.phone_number.errors}}</div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <label for='delivery' class="form-label">Способ доставки: </label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="requires_delivery"
-                                        id='id_requires_delivery' value="1" checked>
-                                    <label class="form-check-label" for="id_requires_delivery">Нужна
-                                        доставка</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="requires_delivery"
-                                        id="id_requires_delivery" value="0">
-                                    <label class="form-check-label" for="id_requires_delivery">Самовывоз</label>
-                                </div>
-                            </div>
-                            <div class="mb-3" id="deliveryAddressField">
-                                <label for="id_delivery_address" class="form-label">Адрес
-                                    доставки*:</label>
-                                <textarea class="form-control" id="id_delivery_address"
-                                    value="{% if form.delivery_address.value %}{{ form.delivery_address.value }}{% endif %}"
-                                    name="delivery_address" rows="2"></textarea>
-                                {% if form.delivery_adress.errors %}
-                                    <div class="alert alert-danger alert-dismissible fade show">{{form.delivery_adress.errors}}</div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <label class="form-label">Способ оплаты: </label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="payment_on_get"
-                                        id="id_payment_on_get" value="0" checked>
-                                    <label class="form-check-label" for="id_payment_on_get">Оплата
-                                        картой</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="payment_on_get"
-                                        id="id_payment_on_get" value="1">
-                                    <label class="form-check-label" for="id_payment_on_get">Наличными/картой
-                                        при получении</label>
-                                </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="delivery" id="delivery_no" value="0">
+                                <label class="form-check-label" for="delivery_no">Самовывоз</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-dark">Оформить заказ</button>
-                    </form>
-                </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="delivery_address">Адрес доставки*:</label>
+                            <textarea class="form-control" id="delivery_address" name="delivery_address" rows="2"></textarea>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label>Способ оплаты:</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="payment_method" id="payment_card" value="card" checked>
+                                <label class="form-check-label" for="payment_card">Оплата картой</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="payment_method" id="payment_cash" value="cash">
+                                <label class="form-check-label" for="payment_cash">Наличными/картой при получении</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Оформить заказ</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
+<script src="frontend/js/bootstrap.bundle.min.js"></script>
+<script src="frontend/js/create_order.js"></script>
 </body>
 </html>
