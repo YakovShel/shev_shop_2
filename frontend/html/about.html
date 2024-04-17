@@ -1,23 +1,39 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>О нас | Интернет-Магазин</title>
-    <link rel="stylesheet" href="frontend/css/bootstrap.min.css">
-    <link rel="stylesheet" href="frontend/css/my_footer_css.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/my_css.css">
+    <link rel="stylesheet" href="css/my_footer_css.css"> <!-- Added footer CSS -->
+    <!-- Favicons for different platforms -->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon/site.webmanifest">
+    <title>Page Title</title> <!-- Replace with your page title -->
 </head>
+
 <body>
-    <div id="modal-cart"></div>
-    <div id="content" class="mt-5 pt-5 bg-white custom-shadow rounded"></div>
+    <section>
+        <!-- Main content here -->
+        <div class="mt-5 pt-5 bg-white custom-shadow rounded">
+            <!-- Static content will replace the {{ content }} placeholder -->
+            <h2 class="m-2"><strong>Content Title</strong></h2>
+            <p class="m-2">This is the static text that would replace the {{ text_on_page }} placeholder.</p>
+        </div>
+    </section>
     <footer class="py-4 bg-dark">
         <div class="container">
             <p class="m-0 text-center text-white">Copyright &copy; ShEv Course Project 2024</p>
         </div>
     </footer>
-
-    <script src="frontend/js/jquery-3.5.1.min.js"></script>
-    <script src="frontend/js/bootstrap.min.js"></script>
-    <script src="frontend/js/api.js"></script>
-    <script src="frontend/js/about.js"></script>
+    <script src="js/jquery/jquery-3.7.0.min.js"></script>
+    <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- Additional JS files can be included here -->
+    <!-- Modal cart content from includes/cart_button.html -->
 </body>
+
 </html>
