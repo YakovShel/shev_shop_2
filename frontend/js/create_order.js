@@ -1,7 +1,7 @@
 document.getElementById('order-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    fetch('/api/create-order', {
+    fetch('/orders/create-order', {
         method: 'POST',
         body: JSON.stringify(Object.fromEntries(formData)),
         headers: {
@@ -17,7 +17,7 @@ document.getElementById('order-form').addEventListener('submit', function(event)
 });
 
 function loadCartItems() {
-    fetch('/api/cart-items')
+    fetch('/user/users_cart/')
     .then(response => response.json())
     .then(items => {
         const container = document.getElementById('cart-items-container');
@@ -42,7 +42,7 @@ $(document).ready(function() {
 });
 
 function loadCartItems() {
-    $.getJSON('/api/cart', function(data) {
+    $.getJSON('/user/users_cart', function(data) {
         var itemsHtml = data.map(function(item) {
             return '<div class="p-3">' +
                 '<strong>' + item.product.name + '</strong>: ' +
@@ -62,7 +62,7 @@ function submitOrder() {
         delivery_address: $('#delivery_address').val(),
         payment_method: $('input[name="payment_method"]:checked').val(),
     };
-    $.post('/api/orders/create', formData, function(response) {
+    $.post('/orders/create_order/', formData, function(response) {
         alert('Заказ оформлен: ' + response.order_id);
     }).fail(function() {
         alert('Ошибка при оформлении заказа. Пожалуйста, попробуйте ещё раз.');

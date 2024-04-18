@@ -14,7 +14,7 @@ function handleAddToCartButtons() {
 
 function addToCart(productId) {
     $.ajax({
-        url: '/api/add-to-cart',
+        url: '/сart/cart_add',
         type: 'POST',
         data: { productId: productId },
         success: function(response) {

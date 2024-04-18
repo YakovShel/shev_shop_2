@@ -52,7 +52,7 @@ $(document).ready(function() {
 });
 
 function loadCartItems() {
-    $.getJSON('/api/cart', function(data) {
+    $.getJSON('/cart/', function(data) {
         var itemsHtml = data.map(function(item) {
             return '<div class="p-3">' +
                 '<strong>' + item.product.name + '</strong>: ' +
@@ -96,12 +96,9 @@ $(document).ready(function(){
     });
 });
 }
-document.addEventListener('DOMContentLoaded', function() {
-    fetchProducts();  // Load initial products or based on URL query parameters
-});
 
 function fetchProducts() {
-    const url = new URL('/api/products', window.location.origin);
+    const url = new URL('/catalog/', window.location.origin);
     const params = {
         on_sale: document.getElementById('on_sale').checked ? 'on' : '',
         order_by: document.querySelector('input[name="order_by"]:checked').value,
