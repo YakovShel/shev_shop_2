@@ -2,10 +2,18 @@
 {% load static %}
 
 {% block modal_cart %}
-{% include "includes/cart_button.html" %}
+{% include "cart_button.html" %}
 {% endblock %}
 
 {% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/my_css.css">
+    <link rel="stylesheet" href="css/my_footer_css.css">
+</head>
                     <!-- Контент на странице -->
                     <div class="container mt-5">
                         <div class="card mb-4 custom-shadow">
@@ -16,7 +24,7 @@
                                         <img src="{{ product.image.url }}"
                                             class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
                                     {% else %}
-                                        <img src="{% static 'deps/images/Not found image.png' %}"
+                                        <img src="frontend/images/Not found image.png"
                                              class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
                                     {% endif %}
 
@@ -39,7 +47,7 @@
                                                     <img src="{{ product.image.url }}"
                                                          class="img-fluid" alt="Изображение 1">
                                                 {% else %}
-                                                    <img src="{% static 'deps/images/Not found image.png' %}"
+                                                    <img src="frontend/images/Not found image.png"
                                                          class="img-fluid" alt="Изображение 1">
                                                 {% endif %}
                                             </div>
@@ -60,4 +68,5 @@
                         </div>
                     </div>
                 </div>
+                <script src="frontend/js/product.js"></script>
 {% endblock %}

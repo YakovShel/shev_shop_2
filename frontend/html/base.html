@@ -1,6 +1,3 @@
-{% load static %}
-{% load goods_tags %}
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,15 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'deps/css/bootstrap/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'deps/css/my_css.css' %}">
-    {% block css %}
-    {% endblock %}
+    <link rel="stylesheet" href="frontend/css/bootstrap.min.css">
+    <link rel="stylesheet" href="frontend/css/my_css.css">
+    <!-- Your CSS styles -->
+    <link rel="stylesheet" href="frontend/css/bootstrap.min.css">
+    <link rel="stylesheet" href="frontend/css/my_css.css">
     <!-- Favicons for different platforms -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'deps/favicon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'deps/favicon/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'deps/favicon/favicon-16x16.png' %}">
-    <link rel="manifest" href="{% static 'deps/favicon/site.webmanifest' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="frontend/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="frontend/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="frontend/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="frontend/images/favicon/site.webmanifest">
     <title>{{ title }}</title>
 </head>
 
@@ -24,7 +22,7 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-brand" href="{% url 'main:index' %}">ShEv</a>
+                <a class="navbar-brand" href="index.html">ShEv</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -38,17 +36,17 @@
                                 Информация
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item  text-white" href="#">Доставка и оплата</a></li>
-                                <li><a class="dropdown-item  text-white" href="#">Контактная информация</a></li>
-                                <li><a class="dropdown-item  text-white" href="{% url 'main:about' %}">Про нас</a></li>
+                                <li><a class="dropdown-item  text-white" href="delivery.html">Доставка и оплата</a></li>
+                                <li><a class="dropdown-item  text-white" href="contacts.html">Контактная информация</a></li>
+                                <li><a class="dropdown-item  text-white" href="about.html">Про нас</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  text-white" href="{% url 'user:users_cart' %}">Корзина</a>
+                            <a class="nav-link  text-white" href="users_cart.html">Корзина</a>
                         </li>
                         {% if not user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link  text-white" href="{% url 'user:login' %}">Войти</a>
+                                <a class="nav-link  text-white" href="login.html">Войти</a>
                             </li>
                         {% else %}
                             <li class="nav-item dropdown ">
@@ -60,10 +58,10 @@
                                     {% if user.is_admin or user.is_staff %}
                                         <li><a class="dropdown-item  text-white" href="{% url 'parser:parse' %}">Обновить ассортимент</a></li>
                                     {% endif %}
-                                    <li><a class="dropdown-item  text-white" href="{% url 'user:profile' %}">Личный кабинет</a>
+                                    <li><a class="dropdown-item  text-white" href="profile.html">Личный кабинет</a>
                                     </li>
                                     {% if user.is_admin or user.is_staff %}
-                                        <li><a class="dropdown-item  text-white" href="{% url 'admin:index' %}">Админ панель</a></li>
+                                        <li><a class="dropdown-item  text-white" href="index.html">Админ панель</a></li>
                                     {% endif %}
                                     <li>
                                         <hr class="dropdown-divider">
@@ -91,7 +89,7 @@
                     <button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Каталог
-                        <img class="mx-1" src="{% static 'deps/icons/grid-fill.svg' %}" alt="Catalog Icon" width="16"
+                        <img class="mx-1" src="frontend/images/icons/grid-fill.svg" alt="Catalog Icon" width="16"
                             height="16">
                     </button>
                     <ul class="dropdown-menu bg-dark" data-bs-theme="dark">
@@ -123,9 +121,9 @@
     </section>
     {% block footer %}
     {% endblock %}
-    <script src="{% static 'deps/js/jquery/jquery-3.7.0.min.js' %}"></script>
-    <script src="{% static 'deps/js/jquery-ajax.js' %}"></script>
-    <script src="{% static 'deps/js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <script src="frontend/js/jquery/jquery-3.7.0.min.js"></script>
+    <script src="frontend/js/jquery-ajax.js"></script>
+    <script src="frontend/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

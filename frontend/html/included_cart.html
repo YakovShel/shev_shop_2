@@ -1,5 +1,12 @@
 {% load static %}
-
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/my_css.css">
+    <link rel="stylesheet" href="css/my_footer_css.css">
+</head>
 <div class="card mb-3 text-bg-light shadow-lg">
     {% for cart in carts %}
         <div class="card-header">
@@ -36,7 +43,7 @@
                         <a href="{% url "cart:cart_remove" %}" class="remove-from-cart"
                         data-cart-id="{{ cart.id }}">
                             {% csrf_token %}
-                            <img class="mx-1" src="{% static "deps/icons/trash3-fill.svg" %}"
+                            <img class="mx-1" src="frontend/images/icons/trash3-fill.svg"
                                 alt="Catalog Icon" width="16" height="16">
                         </a>
                     </div>
@@ -52,7 +59,7 @@
     </div>
 </div>
 {% if carts and not orders %}
-                    <a class="btn btn-dark" href="{% url 'orders:create_order' %}">
+                    <a class="btn btn-dark" href="create_order.html">
                         Оформить заказ
                     </a>
 {% endif %}

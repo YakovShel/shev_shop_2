@@ -3,6 +3,14 @@
 {% load carts_tags %}
 
 {% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/my_css.css">
+    <link rel="stylesheet" href="css/my_footer_css.css">
+</head>
 <div class="row">
     <div class="container mt-5">
         <div class="row">
@@ -10,7 +18,7 @@
             <div class="col-md-5">
                 <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
                     <h3 class="text-center mb-4">Профиль пользователя</h3>
-                    <form action="{% url "users:profile" %}" method="post" enctype="multipart/form-data">
+                    <form action="profile.html" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-12 mb-3 text-center">
@@ -19,7 +27,7 @@
                                         alt="Аватар пользователя" class="img-fluid rounded-circle"
                                         style="max-width: 150px;">
                                 {% else %}
-                                    <img src="{% static "deps/images/baseavatar.jpg" %}"
+                                    <img src="frontendimages/baseavatar.jpg"
                                         alt="Аватар пользователя" class="img-fluid rounded-circle"
                                         style="max-width: 150px;">
                                 {% endif %}
@@ -87,7 +95,7 @@
                     <h3 class="text-center mb-4">Корзина</h3>
                     <div class="container" id="cart-items-container">
                         <!-- Разметка корзины -->
-                        {% include "carts/includes/included_cart.html" %}
+                        {% include "included_cart.html" %}
                         <!-- Закончилась разметка корзины -->
                     </div>
                 </div>
@@ -210,4 +218,5 @@
         </div>
     </div>
 </div>
+<script src="frontend/js/profile.js"></script>
 {% endblock  %}
