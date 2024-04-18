@@ -18,7 +18,7 @@
             <div class="col-md-5">
                 <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
                     <h3 class="text-center mb-4">Профиль пользователя</h3>
-                    <form action="frontend/htmnl/profile.html" method="post" enctype="multipart/form-data">
+                    <form action="profile.html" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-12 mb-3 text-center">
@@ -95,7 +95,7 @@
                     <h3 class="text-center mb-4">Корзина</h3>
                     <div class="container" id="cart-items-container">
                         <!-- Разметка корзины -->
-                        {% include "frontend/html/included_cart.html" %}
+                        {% include "included_cart.html" %}
                         <!-- Закончилась разметка корзины -->
                     </div>
                 </div>
