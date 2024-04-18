@@ -1,15 +1,46 @@
 $(document).ready(function() {
-    loadCartButton().fail(function(err) {
-        console.error('Ошибка при загрузке кнопки корзины', err);
-    });
-
-    loadAboutContent().then(function(data) {
-        $('#content').html(`
-            <h2 class="m-2"><strong>${data.content}</strong></h2>
-            <p class="m-2">${data.text_on_page}</p>
-        `);
-    }).fail(function(err) {
-        console.error('Ошибка при загрузке контента', err);
-    });
+    initializePage();
+    handleAddToCartButtons();
+    handleFormSubmissions();
 });
 
+
+function handleAddToCartButtons() {
+    $('.add-to-cart-btn').on('click', function() {
+        const productId = $(this).attr('data-product-id');
+        addToCart(productId);
+    });
+}
+
+function addToCart(productId) {
+    $.ajax({
+        url: '/api/add-to-cart',
+        type: 'POST',
+        data: { productId: productId },
+        success: function(response) {
+            alert('Product added to cart!');
+        },
+        error: function() {
+            alert('Failed to add product to cart.');
+        }
+    });
+}
+
+function handleFormSubmissions() {
+    $('form').on('submit', function(event) {
+        event.preventDefault();
+        const formData = $(this).serialize();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+                alert('Form submitted successfully!');
+            },
+            error: function() {
+                alert('Form submission failed.');
+            }
+        });
+    });
+}
