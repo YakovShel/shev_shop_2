@@ -1,53 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
-    <!-- Стиль footer-a для главной страницы -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+     <!-- Стиль footer-a для главной страницы -->
     <link rel="stylesheet" href="frontend/css/my_footer_css.css">
-</head>
-<body>
-    <header>
-        <!-- Подключение кнопки корзины -->
-        <div id="modal_cart">
-            <div>
-                <button type="button" class="btn btn-dark btn-secondary d-flex" id="modalButton"
-                        aria-expanded="false">
-                    <img class="mx-1" src="frontend/images/icons/basket2-fill.svg" alt="Catalog Icon" width="24"
-                         height="24">
-                    <span id="goods-in-cart-count">0</span>
-                </button>
-            </div>
-            <!-- Разметка модального окна корзины -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h3 class="text-center mb-4">Корзина</h3>
-                            <div class="container" id="cart-items-container">
-                                <!-- Разметка корзины -->
-                                <!-- Закончилась разметка корзины -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <main>
-        <!-- Контент на странице -->
-        <h1 class="mt-5 pt-5"><strong>Content</strong></h1>
-    </main>
-    <footer class="py-4 bg-dark">
+{% endblock %}
+
+{% block modal_cart %}
+{% include "frontend/html/cart_button.html" %}
+{% endblock %}
+
+{% block content %}
+     <!-- Контент на странице -->
+     <h1 class="mt-5 pt-5"><strong>{{ content }}</strong></h1>
+{% endblock %}
+
+{% block footer %}
+<footer class="py-4 bg-dark">
         <div class="container">
             <p class="m-0 text-center text-white">Copyright &copy; ShEv Course Project 2024</p>
         </div>
     </footer>
-</body>
-</html>
+{% endblock %}
+
