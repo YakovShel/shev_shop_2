@@ -1,9 +1,9 @@
 from django.urls import path
 
-from parser import views
+from parser.views import UpdateAssortmentAPI
 
 app_name = 'parser'
 
 urlpatterns = [
-    path('', views.parse, name='parse'),
+    path('', UpdateAssortmentAPI.as_view(), name='parse'),
 ]

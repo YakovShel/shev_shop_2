@@ -2,40 +2,44 @@ from django.shortcuts import render
 import json
 import subprocess
 import requests
+from requests import Response
+from rest_framework import status
+from rest_framework.permissions import IsAdminUser
+from rest_framework.views import APIView
 
 from goods.models import Products, Categories
 
 
-def parse(request):
-    python_script_path = "parser/utils.py"
-    subprocess.run(["python", python_script_path])
+class UpdateAssortmentAPI(APIView):
+    permission_classes = [IsAdminUser]
+    def get(self, request, *args, **kwargs):
+        python_script_path = "parser/utils.py"
+        subprocess.run(["python", python_script_path])
 
-    json_file_path_age_1 = 'data/age-1-plus-years.json'
-    json_file_path_age_4 = 'data/age-4-plus-years.json'
-    json_file_path_age_18 = 'data/age-18-plus-years.json'
-    json_file_path_ninjago = 'data/ninjago.json'
-    json_file_path_star_wars = 'data/star-wars.json'
-    json_file_path_marvel = 'data/marvel.json'
-    json_file_path_duplo = 'data/friends.json'
-    json_file_path_disney = 'data/disney.json'
+        json_file_path_age_1 = 'data/age-1-plus-years.json'
+        json_file_path_age_4 = 'data/age-4-plus-years.json'
+        json_file_path_age_18 = 'data/age-18-plus-years.json'
+        json_file_path_ninjago = 'data/ninjago.json'
+        json_file_path_star_wars = 'data/star-wars.json'
+        json_file_path_marvel = 'data/marvel.json'
+        json_file_path_duplo = 'data/friends.json'
+        json_file_path_disney = 'data/disney.json'
 
-    Products.objects.all().delete()
+        Products.objects.all().delete()
 
-    load_products(json_file_path_age_1, "Lego 1+")
-    load_products(json_file_path_age_4, "Lego 4+")
-    load_products(json_file_path_age_18, "Lego 18+")
-    load_products(json_file_path_ninjago, "Lego Ninjago")
-    load_products(json_file_path_star_wars, "Lego Star-Wars")
-    load_products(json_file_path_marvel, "Lego Marvel")
-    load_products(json_file_path_duplo, "Lego Friends")
-    load_products(json_file_path_disney, "Lego Disney")
+        load_products(json_file_path_age_1, "Lego 1+")
+        load_products(json_file_path_age_4, "Lego 4+")
+        load_products(json_file_path_age_18, "Lego 18+")
+        load_products(json_file_path_ninjago, "Lego Ninjago")
+        load_products(json_file_path_star_wars, "Lego Star-Wars")
+        load_products(json_file_path_marvel, "Lego Marvel")
+        load_products(json_file_path_duplo, "Lego Friends")
+        load_products(json_file_path_disney, "Lego Disney")
 
-    context = {
-        'title': "ShEv - Главная",
-        'content': 'Магазин ShEV',
-    }
-
-    return render(request, 'main/index.html', context)
+        return Response({
+            'status': 'success',
+            'message': 'Ассортимент успешно обновлён!'
+        }, status=status.HTTP_200_OK)
 
 
 def get_image(pic_name, pic_url):

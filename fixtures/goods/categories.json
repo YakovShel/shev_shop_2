@@ -1,1 +1,74 @@
-[{"model": "goods.categories", "pk": 3, "fields": {"name": "Все товары", "slug": "all"}}, {"model": "goods.categories", "pk": 4, "fields": {"name": "Толстовки и кофты", "slug": "tolstovki-i-kofty"}}, {"model": "goods.categories", "pk": 5, "fields": {"name": "Брюки и штаны", "slug": "bryuki-i-shtany"}}, {"model": "goods.categories", "pk": 6, "fields": {"name": "Обувь", "slug": "obuv"}}, {"model": "goods.categories", "pk": 7, "fields": {"name": "Аксессуары", "slug": "aksessuary"}}]
+[
+{
+    "model": "goods.categories",
+    "pk": 3,
+    "fields": {
+        "name": "Все товары",
+        "slug": "all"
+    }
+},
+{
+    "model": "goods.categories",
+    "pk": 8,
+    "fields": {
+        "name": "Lego 1+",
+        "slug": "vozrast-1"
+    }
+},
+{
+    "model": "goods.categories",
+    "pk": 9,
+    "fields": {
+        "name": "Lego 4+",
+        "slug": "vozrast-4"
+    }
+},
+{
+    "model": "goods.categories",
+    "pk": 10,
+    "fields": {
+        "name": "Lego 18+",
+        "slug": "vozrast-18"
+    }
+},
+{
+    "model": "goods.categories",
+    "pk": 11,
+    "fields": {
+        "name": "Lego Ninjago",
+        "slug": "ninjago"
+    }
+},
+{
+    "model": "goods.categories",
+    "pk": 12,
+    "fields": {
+        "name": "Lego Star-Wars",
+        "slug": "star-wars"
+    }
+},
+{
+    "model": "goods.categories",
+    "pk": 13,
+    "fields": {
+        "name": "Lego Marvel",
+        "slug": "marvel"
+    }
+},
+{
+    "model": "goods.categories",
+    "pk": 14,
+    "fields": {
+        "name": "Lego Friends",
+        "slug": "friends"
+    }
+},
+{
+    "model": "goods.categories",
+    "pk": 15,
+    "fields": {
+        "name": "Lego Disney",
+        "slug": "disney"
+    }
+}
+]

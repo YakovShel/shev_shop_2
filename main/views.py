@@ -1,22 +1,36 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
 
-from goods.models import Categories
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
-def index(request):
+class AuthCheckAPIView(APIView):
+    permission_classes = (AllowAny,)
 
-    context = {
-        'title': "ShEv - Главная",
-        'content': 'Магазин ShEv',
-    }
+    def get(self, request):
+        # Проверяем, аутентифицирован ли пользователь
+        if request.user.is_authenticated:
+            # Пользователь аутентифицирован
+            return Response({
+                "is_authenticated": True,
+                "is_staff": request.user.is_staff,
+                "status": "success",
+                "message": "Пользователь авторизован!"
+            })
+        else:
+            # Пользователь не аутентифицирован
+            return Response({
+                "is_authenticated": False,
+                "is_staff": False,
+                "status": "success",
+                "message": "Пользователь не авторизован!"
+            })
 
-    return render(request, 'main/index.html', context)
-
-
-def about(request):
-    context = {
-        'title': "ShEv - О нас",
-        'content': 'О нас',
-        'text_on_page': 'Текст о том, почему наш магазин лучше всех!'
-    }
-    return render(request, 'main/about.html', context)
+class AboutAPIView(APIView):
+    def get(self, request):
+        data = {
+            'content': "Текст о том, почему наш магазин лучше всех!",
+            'status': "success",
+            'message': "Информация о преимуществах передана!"
+        }
+        return JsonResponse(data)
