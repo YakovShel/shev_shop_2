@@ -1,90 +1,139 @@
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
+from requests import Response, Session
+from rest_framework import status
+from rest_framework.views import APIView
+
 from carts.models import Cart
+from carts.serializers import CartSerializer
+from goods.models import Products
 from carts.utils import get_user_carts
 
 from goods.models import Products
+from users.models import User
 
 
-def cart_add(request):
-    product_id = request.POST.get("product_id")
+class CartAddAPIView(APIView):
 
-    product = Products.objects.get(id=product_id)
+    def post(self, request):
+        # Получаем данные из запроса
+        product_id = request.data.get("product_id")
+        user_id = request.data.get("user_id", None)
+        session_key = request.data.get("session_key", None)
 
-    if request.user.is_authenticated:
-        carts = Cart.objects.filter(user=request.user, product=product)
+        # Получаем объект продукта или возвращаем ошибку 404
+        product = get_object_or_404(Products, id=product_id)
 
-        if carts.exists():
-            cart = carts.first()
-            if cart:
-                cart.quantity += 1
-                cart.save()
+        # Проверяем аутентификацию пользователя
+        if user_id:
+            user = get_object_or_404(User, id=user_id)
+            cart, created = Cart.objects.get_or_create(user=user, product=product)
         else:
-            Cart.objects.create(user=request.user, product=product, quantity=1)
-    else:
-        carts = Cart.objects.filter(
-            session_key=request.session.session_key, product=product)
+            # В случае неаутентифицированного пользователя используем session_key
+            if not session_key:
+                return Response(
+                    {"message": "Необходим ключ сессии для неаутентифицированных пользователей."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            # Убедимся, что сессия существует
+            session = Session.objects.get_or_create(session_key=session_key)
+            cart, created = Cart.objects.get_or_create(session_key=session.session_key, product=product)
 
-        if carts.exists():
-            cart = carts.first()
-            if cart:
-                cart.quantity += 1
-                cart.save()
-        else:
-            Cart.objects.create(
-                session_key=request.session.session_key, product=product, quantity=1)
+        # Обновляем количество, если товар уже в корзине
+        if not created:
+            cart.quantity += 1
+            cart.save(update_fields=['quantity'])
 
-    user_cart = get_user_carts(request)
-    cart_items_html = render_to_string(
-        "carts/includes/included_cart.html", {"carts": user_cart}, request=request)
+        # Подготовка данных для ответа
+        cart_data = {
+            "id": cart.id,
+            "quantity": cart.quantity,
+            "session_key": cart.session_key if not user_id else None,
+            "product_id": cart.product_id,
+            "user_id": user_id
+        }
 
-    response_data = {
-        "message": "Товар добавлен в корзину",
-        "cart_items_html": cart_items_html,
-    }
+        if created:
+            cart_data["created_timestamp"] = cart.created.timestamp().isoformat()
 
-    return JsonResponse(response_data)
-
-
-def cart_change(request):
-    cart_id = request.POST.get("cart_id")
-    quantity = request.POST.get("quantity")
-
-    cart = Cart.objects.get(id=cart_id)
-
-    cart.quantity = quantity
-    cart.save()
-    updated_quantity = cart.quantity
-
-    cart = get_user_carts(request)
-    cart_items_html = render_to_string(
-        "carts/includes/included_cart.html", {"carts": cart}, request=request)
-
-    response_data = {
-        "message": "Количество изменено",
-        "cart_items_html": cart_items_html,
-        "quantity": updated_quantity,
-    }
-
-    return JsonResponse(response_data)
+        return JsonResponse({
+            "cart": [cart_data],
+            "status": "success",
+            "message": "Товар успешно добавлен!"
+        }, safe=False)
 
 
-def cart_remove(request):
-    cart_id = request.POST.get("cart_id")
+class CartChangeAPIView(APIView):
 
-    cart = Cart.objects.get(id=cart_id)
-    quantity = cart.quantity
-    cart.delete()
+    def post(self, request):
+        product_id = request.data.get("product_id")
+        user_id = request.data.get("user_id")
+        session_key = request.data.get("session_key")
+        quantity = request.data.get("quantity")
 
-    user_cart = get_user_carts(request)
-    cart_items_html = render_to_string(
-        "carts/includes/included_cart.html", {"carts": user_cart}, request=request)
+        try:
+            if user_id:
+                cart_item = Cart.objects.get(user_id=user_id, product_id=product_id)
+            else:
+                cart_item = Cart.objects.get(session_key=session_key, product_id=product_id)
+        except Cart.DoesNotExist:
+            return Response(
+                {"status": "error", "message": "Товар в корзине не найден."},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
-    response_data = {
-        "message": "Товар удален",
-        "cart_items_html": cart_items_html,
-        "quantity_deleted": quantity,
-    }
+        # Устанавливаем новое количество
+        cart_item.quantity = quantity
+        cart_item.save()
 
-    return JsonResponse(response_data)
+        return Response({
+            "cart": {
+                "id": cart_item.id,
+                "quantity": cart_item.quantity,
+                "product_id": cart_item.product_id,
+                "user_id": cart_item.user_id if user_id else None,
+                "session_key": cart_item.session_key if session_key else None,
+                "created_timestamp": cart_item.created.timestamp().isoformat()
+            },
+            "status": "success",
+            "message": "Количество товара изменено!"
+        })
+
+
+class CartRemoveAPIView(APIView):
+
+    def delete(self, request, format=None):
+        product_id = request.data.get("product_id")
+        user_id = request.data.get("user_id")
+        session_key = request.data.get("session_key")
+
+        # Получаем объект корзины для удаления
+        try:
+            if user_id is not None:
+                cart_item = get_object_or_404(Cart, user_id=user_id, product_id=product_id)
+            else:
+                cart_item = get_object_or_404(Cart, session_key=session_key, product_id=product_id)
+
+            cart_item.delete()  # Удаляем товар из корзины
+
+            # Получаем обновленный список товаров в корзине
+            if user_id is not None:
+                remaining_items = Cart.objects.filter(user_id=user_id)
+            else:
+                remaining_items = Cart.objects.filter(session_key=session_key)
+
+            # Сериализуем оставшиеся товары в корзине
+            cart_serializer = CartSerializer(remaining_items, many=True)
+
+            return Response({
+                "cart": cart_serializer.data,  # Список оставшихся товаров
+                "status": "success",
+                "message": "Товар удален!"
+            })
+
+        except Cart.DoesNotExist:
+            return Response({
+                "status": "error",
+                "message": "Товар в корзине не найден."
+            }, status=404)
